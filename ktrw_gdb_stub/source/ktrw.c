@@ -1233,6 +1233,12 @@ check_cpus() {
 
 #define PAGE_SIZE	0x4000
 
+#if !defined(ACTIVATION_DELAY)
+#define KTRW_GDB_STUB_ACTIVATION_DELAY 30
+#else
+#define KTRW_GDB_STUB_ACTIVATION_DELAY ACTIVATION_DELAY
+#endif
+
 // A thread function wrapper around gdb_stub_main().
 static void
 gdb_stub_thread(void *parameter, int wait_result) {

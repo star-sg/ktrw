@@ -967,6 +967,11 @@ static void command_ktrwpf(const char *cmd, char *args){
     }
 
     xnu_pf_patchset_destroy(patchset);
+
+	// thanks to https://github.com/jsherman212/ktrw/issues/2#issuecomment-1074162691
+	// the g_mhaddr was set to fixed address which caused gdb_stubs crashed
+	// to fix this, we have to load actual mapped address of g_mhaddr
+	g_mhaddr = va_for_sa(g_mhaddr);
 }
 
 static void anything_missing(void){

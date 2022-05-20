@@ -3,7 +3,7 @@ TARGET = ktrw_gdb_stub.ikext
 ARCH = arm64
 SDK  = iphoneos
 KTRW_VERSION = 0.1.0
-ACTIVATION_DELAY = 30
+# ACTIVATION_DELAY = 30
 # ACTIVATION_DELAY = 0
 
 SYSROOT := $(shell xcrun --sdk $(SDK) --show-sdk-path)
@@ -13,14 +13,16 @@ endif
 CLANG := $(shell xcrun --sdk $(SDK) --find clang)
 CC := $(CLANG) -isysroot $(SYSROOT) -arch $(ARCH)
 
-CFLAGS  = -fno-builtin -fno-common -mkernel
-CFLAGS += -Isource
-CFLAGS += -O2
-CFLAGS += -Wall -Werror -Wpedantic -Wno-gnu -Wno-language-extension-token
+override CFLAGS += -fno-builtin -fno-common -mkernel
+override CFLAGS += -Isource
+override CFLAGS += -O2
+override CFLAGS += -Wall -Werror -Wpedantic -Wno-gnu -Wno-language-extension-token
 # TODO: -Wconversion
 
-DEFINES = -DKTRW_VERSION='"$(KTRW_VERSION)"' \
+# DEFINES = -DKTRW_VERSION='"$(KTRW_VERSION)"' \
 	  -DKTRW_GDB_STUB_ACTIVATION_DELAY='$(ACTIVATION_DELAY)'
+
+DEFINES = -DKTRW_VERSION='"$(KTRW_VERSION)"' $(CFLAGS)
 
 LDFLAGS  = -Xlinker -kext -nostdlib -Xlinker -fatal_warnings
 
